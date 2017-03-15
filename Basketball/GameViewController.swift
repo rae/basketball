@@ -2,7 +2,7 @@
 //  GameViewController.swift
 //  Basketball
 //
-//  Created by Reid Ellis on 2017-03-09.
+//  Created by Ronnie Ellis on 2017-03-09.
 //  Copyright © 2017 Ronnie Ellis. All rights reserved.
 //
 
@@ -16,8 +16,8 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
+            // Load the MenuScene
+            if let scene = SKScene(fileNamed: "MenuScene") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
                 
@@ -37,16 +37,7 @@ class GameViewController: UIViewController {
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
+        return .all
     }
 
     override var prefersStatusBarHidden: Bool {

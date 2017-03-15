@@ -10,18 +10,13 @@ import SpriteKit
 
 class InstructionsScene: SKScene {
 	var menuLabel : SKLabelNode!
-	var playLabel : SKLabelNode!
 
 	override func didMove(to view: SKView) {
-		self.playLabel = self.childNode(withName: "//playLabel") as? SKLabelNode
 		self.menuLabel = self.childNode(withName: "//menuLabel") as? SKLabelNode
 	}
 
 	func touchUp(atPoint pos : CGPoint) {
 		if touchWasHandledByLabel(atPoint: pos, withDict: [
-			self.playLabel: {
-				self.playLabel.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-			},
 			self.menuLabel : {
 				self.menuLabel.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
 				// Load the MenuScene

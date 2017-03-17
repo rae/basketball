@@ -1,14 +1,14 @@
 //
-//  InstructionsScene.swift
+//  HighScoresScene.swift
 //  Basketball
 //
-//  Created by Ronnie Ellis on 2017-03-09.
+//  Created by Ronnie Ellis on 2017-03-15.
 //  Copyright © 2017 Ronnie Ellis. All rights reserved.
 //
 
 import SpriteKit
 
-class InstructionsScene: SKScene {
+class HighScoresScene : SKScene {
 	var menuLabel : SKLabelNode!
 
 	override func didMove(to view: SKView) {

@@ -8,6 +8,8 @@
 
 import SpriteKit
 
+let kSceneTransitionDelay = 0.6
+
 class GameScene : SKScene {
 	var backLabel: SKLabelNode!
 	var scoreLabel: SKLabelNode!
@@ -19,6 +21,21 @@ class GameScene : SKScene {
 		self.scoreLabel = self.childNode(withName: "//scoreLabel") as? SKLabelNode
 		self.basketballNet = self.childNode(withName: "//basketballNet") as? SKSpriteNode
 		self.basketball = self.childNode(withName: "//basketball") as? SKSpriteNode
+//		createBoundsPhysics()
+		// initially the ball does not fall
+//		self.basketball.physicsBody?.affectedByGravity = false
+	}
+
+	func createBoundsPhysics() {
+		// add a physics border around the screen for the ball to bounce against
+		self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+		self.physicsBody?.isDynamic = false
+		self.physicsBody?.restitution = 0.9
+		self.physicsBody?.friction = 0.4
+		self.physicsBody?.linearDamping = 0
+		self.physicsBody?.angularDamping = 0
+		self.physicsBody?.allowsRotation = false
+		self.physicsBody?.affectedByGravity = false
 	}
 
 	func touchUp(atPoint pos : CGPoint) {
@@ -32,7 +49,7 @@ class GameScene : SKScene {
 				if let view = self.view, let scene = MenuScene(fileNamed: "MenuScene") {
 					// Set the scale mode to scale to fit the window
 					scene.scaleMode = .aspectFill
-					let reveal = SKTransition.moveIn(with: .left, duration: 1)
+					let reveal = SKTransition.moveIn(with: .left, duration: kSceneTransitionDelay)
 					// Present the scene
 					view.presentScene(scene, transition:reveal)
 				}

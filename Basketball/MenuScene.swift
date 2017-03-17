@@ -36,7 +36,7 @@ class MenuScene: SKScene {
 				if let view = self.view, let scene = GameScene(fileNamed: "GameScene") {
 					// Set the scale mode to scale to fit the window
 					scene.scaleMode = .aspectFill
-					let reveal = SKTransition.reveal(with: .left, duration: 1)
+					let reveal = SKTransition.reveal(with: .left, duration: kSceneTransitionDelay)
 					// Present the scene
 					view.presentScene(scene, transition:reveal)
 				}
@@ -47,13 +47,21 @@ class MenuScene: SKScene {
 				if let view = self.view, let scene = InstructionsScene(fileNamed: "InstructionsScene") {
 					// Set the scale mode to scale to fit the window
 					scene.scaleMode = .aspectFill
-					let reveal = SKTransition.reveal(with: .up, duration: 1)
+					let reveal = SKTransition.reveal(with: .left, duration: kSceneTransitionDelay)
 					// Present the scene
 					view.presentScene(scene, transition:reveal)
 				}
 			},
 			self.scoreLabel: {
 				self.scoreLabel.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+				// Load the HighScoresScene
+				if let view = self.view, let scene = HighScoresScene(fileNamed: "HighScoresScene") {
+					// Set the scale mode to scale to fit the window
+					scene.scaleMode = .aspectFill
+					let reveal = SKTransition.reveal(with: .left, duration: kSceneTransitionDelay)
+					// Present the scene
+					view.presentScene(scene, transition:reveal)
+				}
 			}]) {
 			return
 		}

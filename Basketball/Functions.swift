@@ -12,7 +12,10 @@ import SpriteKit
 func touchWasHandledByLabel(atPoint pos : CGPoint, withDict dict: [SKLabelNode : ()->()]) -> Bool {
 	var labelWasTouched = false
 	for (label, block) in dict {
-		if label.frame.contains(pos) {
+		let debugRect = label.frame
+		// make touch area bigger
+		let touchRect = label.frame.insetBy(dx: -20, dy: -20)
+		if touchRect.contains(pos) {
 			labelWasTouched = true
 			block()
 			break

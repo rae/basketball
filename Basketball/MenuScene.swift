@@ -44,7 +44,8 @@ class MenuScene: SKScene {
 			self.instructionsLabel : {
 				self.instructionsLabel.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
 				// Load the InstructionsScene
-				if let view = self.view, let scene = InstructionsScene(fileNamed: "InstructionsScene") {
+//				if let view = self.view, let scene = InstructionsScene(fileNamed: "InstructionsScene") {
+				if let view = self.view, let scene = InstructionsScene(fileNamed: "Test") {
 					// Set the scale mode to scale to fit the window
 					scene.scaleMode = .aspectFill
 					let reveal = SKTransition.reveal(with: .left, duration: kSceneTransitionDelay)

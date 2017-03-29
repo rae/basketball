@@ -23,6 +23,7 @@
 		01C69F321E72040E00A55206 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01C69F301E72040E00A55206 /* Main.storyboard */; };
 		01C69F341E72040E00A55206 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01C69F331E72040E00A55206 /* Assets.xcassets */; };
 		01C69F371E72040E00A55206 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01C69F351E72040E00A55206 /* LaunchScreen.storyboard */; };
+		01DCEF561E8C3B32007D5DB6 /* Test.sks in Resources */ = {isa = PBXBuildFile; fileRef = 01DCEF551E8C3B32007D5DB6 /* Test.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		01C69F331E72040E00A55206 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		01C69F361E72040E00A55206 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		01C69F381E72040E00A55206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		01DCEF551E8C3B32007D5DB6 /* Test.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Test.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				01259D9E1E79A15D004BD42F /* GameScene.swift */,
 				01259DA01E79A181004BD42F /* GameScene.sks */,
 				01259D9C1E79A050004BD42F /* Functions.swift */,
+				01DCEF551E8C3B32007D5DB6 /* Test.sks */,
 				01C2A7DF1E79B81D00C88BFD /* HighScoresScene.swift */,
 				01C2A7DD1E79B81300C88BFD /* HighScoresScene.sks */,
 				01C69F2E1E72040E00A55206 /* GameViewController.swift */,
@@ -160,6 +163,7 @@
 				01C69F321E72040E00A55206 /* Main.storyboard in Resources */,
 				01C69F291E72040E00A55206 /* MenuScene.sks in Resources */,
 				01C2A7DE1E79B81300C88BFD /* HighScoresScene.sks in Resources */,
+				01DCEF561E8C3B32007D5DB6 /* Test.sks in Resources */,
 				01862DB91E7212BF0046A401 /* quake.ttf in Resources */,
 				01C69F341E72040E00A55206 /* Assets.xcassets in Resources */,
 				01259DA11E79A181004BD42F /* GameScene.sks in Resources */,

@@ -56,8 +56,8 @@ class GameScene : SKScene {
 		basketball.physicsBody?.affectedByGravity = false
 		basketball.physicsBody?.isDynamic = false
 		// make baskeball bigger
-		basketball.xScale = 1.5 * basketballScale
-		basketball.yScale = 1.5 * basketballScale
+		basketball.xScale = 2 * basketballScale
+		basketball.yScale = 2 * basketballScale
 		// put it in front of the net
 		basketball.zPosition = inFrontZ
 		// don't collide with anything for now
@@ -156,7 +156,7 @@ class GameScene : SKScene {
 		// give the basketball a kick in the right direction
 		basketball.physicsBody?.velocity = CGVector(dx: x, dy: y)
 		// shrink the basketball down to size soon after it's launched
-		basketball.run(SKAction.scale(to: basketballScale, duration: 0.33))
+		basketball.run(SKAction.scale(to: basketballScale, duration: 0.66))
 	}
 
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -172,15 +172,18 @@ class GameScene : SKScene {
 	}
 
 	override func update(_ currentTime: TimeInterval) {
-		let ballClearHeight = basketball.position.y - basketball.size.height/2.0
+		let halfBall = basketball.size.height/2.0
+		let ballClearHeight = basketball.position.y - halfBall
 		if ballClearHeight.native > basketballHoopHeight {
 			// allow colliding with the hoop
 			basketball.physicsBody?.collisionBitMask = hoopCategory
 			// put it behind the net
 			basketball.zPosition = droppingZ
 		}
-		// basketball has dropped out of the frame
-		if basketball.position.y + basketball.size.height/2.0 < self.frame.minY {
+		// basketball has left the screen
+		if basketball.position.y + halfBall < self.frame.minY
+		|| basketball.position.x + halfBall < self.frame.minX
+		|| basketball.position.x - halfBall > self.frame.maxX {
 			shotCount += 1
 			resetBasketBall()
 		}

@@ -29,7 +29,7 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
 	var recordedDrags = [CGPoint]()
 	let basketballCategory : UInt32 = 1
 	let hoopCategory : UInt32 = 2
-	let basketballYImpulse = CGFloat(1500.0)
+	let basketballYImpulse = CGFloat(1600.0)
 	let inFrontZ = CGFloat(6.0)
 	let droppingZ = CGFloat(4.0)
 	var waitingToScore = true
@@ -70,6 +70,9 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
 		basketball.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
 		basketball.physicsBody?.affectedByGravity = false
 		basketball.physicsBody?.isDynamic = false
+
+		// stop any running scale animation
+		basketball.removeAction(forKey: "scale")
 
 		// make baskeball bigger
 		basketball.xScale = 2 * basketballScale
@@ -170,13 +173,30 @@ class GameScene : SKScene, SKPhysicsContactDelegate {
 		launch(x: dx, y: basketballYImpulse)
 	}
 	
-	func launch(x: CGFloat, y: CGFloat) {
+	func launch(x inX: CGFloat, y: CGFloat) {
+		// make a 1200-magnitude vector that points just above the net
+		var netVector = CGVector(dx: scoreZone.position.x - basketball.position.x,
+		                         dy: scoreZone.position.y + 100 - basketball.position.y)
+		let netVectorYFactor = basketballYImpulse / netVector.dy
+		netVector = netVector * netVectorYFactor
+
+		// limit magnitude of x such that the max angle is 45º
+		var x = inX
+		if abs(x) > abs(y) {
+			x = abs(y)*(x/abs(x))
+			print("Updated x: \(inX) -> \(x)")
+		}
 		basketball.physicsBody?.affectedByGravity = true
 		basketball.physicsBody?.isDynamic = true
-		// give the basketball a kick in the right direction
-		basketball.physicsBody?.velocity = CGVector(dx: x, dy: y)
+
+		// average out the user vector with the netVector
+		let ballVector = (CGVector(dx: x, dy: y) + netVector) * 0.5
+
+		// give the basketball a kick in the given direction
+		basketball.physicsBody?.velocity = ballVector
+
 		// shrink the basketball down to size soon after it's launched
-		basketball.run(SKAction.scale(to: basketballScale, duration: 0.66))
+		basketball.run(SKAction.scale(to: basketballScale, duration: 0.66), withKey: "scale")
 	}
 
 	func didBegin(_ contact: SKPhysicsContact) {

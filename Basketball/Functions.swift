@@ -24,3 +24,13 @@ func touchWasHandledByLabel(atPoint pos : CGPoint, withDict dict: [SKLabelNode :
 	return labelWasTouched
 }
 
+public extension CGVector {
+	/// Adds two CGVector values and returns the result as a new CGVector.
+	static public func + (left: CGVector, right: CGVector) -> CGVector {
+		return CGVector(dx: left.dx + right.dx, dy: left.dy + right.dy)
+	}
+
+	static public func * (vector: CGVector, scalar: CGFloat) -> CGVector {
+		return CGVector(dx: vector.dx * scalar, dy: vector.dy * scalar)
+	}
+}

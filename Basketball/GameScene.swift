@@ -10,9 +10,11 @@ import SpriteKit
 
 let kSceneTransitionDelay = 0.6
 
-class GameScene : SKScene {
+class GameScene : SKScene, SKPhysicsContactDelegate {
 	var backLabel: SKLabelNode!
 	var scoreLabel: SKLabelNode!
+	var scoreZone: SKSpriteNode!
+	var score = 0
 	var basketballNet: SKSpriteNode!
 	var basketball: SKSpriteNode!
 	var startTouchPos = CGPoint(x: 0, y: 0)
@@ -30,40 +32,58 @@ class GameScene : SKScene {
 	let basketballYImpulse = CGFloat(1500.0)
 	let inFrontZ = CGFloat(6.0)
 	let droppingZ = CGFloat(4.0)
+	var waitingToScore = true
+	var didScore = false
 
 	override func didMove(to view: SKView) {
 		backLabel = childNode(withName: "//backLabel") as? SKLabelNode
 		scoreLabel = childNode(withName: "//scoreLabel") as? SKLabelNode
 		basketballNet = childNode(withName: "//net-front") as? SKSpriteNode
 		basketball = childNode(withName: "//basketball") as? SKSpriteNode
+		scoreZone = childNode(withName: "//scoreZone") as? SKSpriteNode
 		resetBasketBall()
+		physicsWorld.contactDelegate = self
 	}
 
 	// put the basketball at the bottom of the screen, perhaps in a random x location, and scaled up
 	func resetBasketBall() {
+		// reset score state
+		waitingToScore = false
+		if !didScore {
+			score = 0
+			scoreLabel.text = "0"
+		}
+		didScore = false
+
 		var rndX = 0.0
 		// the first shot is alsway at x=0
-		if shotCount > 0 {
+		if score > 0 {
 			// x varies between -300 and +300
 			rndX = -300.0 + Double(arc4random_uniform(600))
 			// rnadomness increases over first 3 shots
-			if shotCount < 4 {
-				rndX = rndX / (4.0 - Double(shotCount))
+			if score < 4 {
+				rndX = rndX / (4.0 - Double(score))
 			}
 		}
+
 		basketball.position = CGPoint(x: rndX, y: yBasketballStart)
 		basketball.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
 		basketball.physicsBody?.affectedByGravity = false
 		basketball.physicsBody?.isDynamic = false
+
 		// make baskeball bigger
 		basketball.xScale = 2 * basketballScale
 		basketball.yScale = 2 * basketballScale
+
 		// put it in front of the net
 		basketball.zPosition = inFrontZ
+
 		// don't collide with anything for now
 		basketball.physicsBody?.collisionBitMask = 0
+
 		// not recording touch events yet
 		isShooting = false
+
 		// nuke any leftover recorded drag points
 		recordedDrags = [CGPoint]()
 	}
@@ -159,6 +179,24 @@ class GameScene : SKScene {
 		basketball.run(SKAction.scale(to: basketballScale, duration: 0.66))
 	}
 
+	func didBegin(_ contact: SKPhysicsContact) {
+		guard let ballBody = basketball.physicsBody, let scoreBody = scoreZone.physicsBody else {
+			return
+		}
+		let bodies = [contact.bodyA, contact.bodyB]
+		if bodies.contains(ballBody) && bodies.contains(scoreBody) && waitingToScore {
+			addScore()
+		}
+	}
+
+	func addScore() {
+		score += 1
+		scoreLabel.text = "\(score)"
+		SKAction.playSoundFileNamed("emailsent.aif", waitForCompletion: false)
+		waitingToScore = false
+		didScore = true
+	}
+
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		for t in touches { touchDown(atPoint: t.location(in: self), atTime: t.timestamp) }
 	}
@@ -179,12 +217,12 @@ class GameScene : SKScene {
 			basketball.physicsBody?.collisionBitMask = hoopCategory
 			// put it behind the net
 			basketball.zPosition = droppingZ
+			waitingToScore = true
 		}
 		// basketball has left the screen
 		if basketball.position.y + halfBall < self.frame.minY
 		|| basketball.position.x + halfBall < self.frame.minX
 		|| basketball.position.x - halfBall > self.frame.maxX {
-			shotCount += 1
 			resetBasketBall()
 		}
 	}

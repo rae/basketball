@@ -9,6 +9,9 @@
 import SpriteKit
 
 class MenuScene: SKScene {
+	// the high scores
+	static var scores = HighScore()
+
 	private var playLabel : SKLabelNode!
 	private var instructionsLabel : SKLabelNode!
 	private var scoreLabel : SKLabelNode!
@@ -31,7 +34,6 @@ class MenuScene: SKScene {
     func touchUp(atPoint pos : CGPoint) {
 		if touchWasHandledByLabel(atPoint: pos, withDict: [
 			self.playLabel: {
-				self.playLabel.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
 				// Load the GameScene
 				if let view = self.view, let scene = GameScene(fileNamed: "GameScene") {
 					// Set the scale mode to scale to fit the window
@@ -42,10 +44,8 @@ class MenuScene: SKScene {
 				}
 			},
 			self.instructionsLabel : {
-				self.instructionsLabel.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
 				// Load the InstructionsScene
-//				if let view = self.view, let scene = InstructionsScene(fileNamed: "InstructionsScene") {
-				if let view = self.view, let scene = InstructionsScene(fileNamed: "Test") {
+				if let view = self.view, let scene = InstructionsScene(fileNamed: "InstructionsScene") {
 					// Set the scale mode to scale to fit the window
 					scene.scaleMode = .aspectFill
 					let reveal = SKTransition.reveal(with: .left, duration: kSceneTransitionDelay)
@@ -54,7 +54,6 @@ class MenuScene: SKScene {
 				}
 			},
 			self.scoreLabel: {
-				self.scoreLabel.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
 				// Load the HighScoresScene
 				if let view = self.view, let scene = HighScoresScene(fileNamed: "HighScoresScene") {
 					// Set the scale mode to scale to fit the window
@@ -66,7 +65,6 @@ class MenuScene: SKScene {
 			}]) {
 			return
 		}
-		// code to handle touch not on labels
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

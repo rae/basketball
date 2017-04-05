@@ -18,7 +18,6 @@ class InstructionsScene: SKScene {
 	func touchUp(atPoint pos : CGPoint) {
 		if touchWasHandledByLabel(atPoint: pos, withDict: [
 			self.menuLabel : {
-				self.menuLabel.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
 				// Load the MenuScene
 				if let view = self.view, let scene = MenuScene(fileNamed: "MenuScene") {
 					// Set the scale mode to scale to fit the window
@@ -30,7 +29,6 @@ class InstructionsScene: SKScene {
 			}]) {
 			return
 		}
-		// code to handle touch not on labels
 	}
 
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -9,16 +9,30 @@
 import SpriteKit
 
 class HighScoresScene : SKScene {
+	// label to return to the menu
 	var menuLabel : SKLabelNode!
 
 	override func didMove(to view: SKView) {
 		self.menuLabel = self.childNode(withName: "//menuLabel") as? SKLabelNode
+		guard let scores = self.childNode(withName: "//scores") else {
+			return
+		}
+		for i in 0...9 {
+			guard let label = scores.childNode(withName: "score_\(i)") as? SKLabelNode else {
+				continue
+			}
+			if MenuScene.scores.list.count > i {
+				label.text = "\(i+1).        \(MenuScene.scores.list[i])"
+
+			} else {
+				label.text = "\(i+1).        —"
+			}
+		}
 	}
 
 	func touchUp(atPoint pos : CGPoint) {
 		if touchWasHandledByLabel(atPoint: pos, withDict: [
 			self.menuLabel : {
-				self.menuLabel.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
 				// Load the MenuScene
 				if let view = self.view, let scene = MenuScene(fileNamed: "MenuScene") {
 					// Set the scale mode to scale to fit the window
@@ -30,7 +44,6 @@ class HighScoresScene : SKScene {
 			}]) {
 			return
 		}
-		// code to handle touch not on labels
 	}
 
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
